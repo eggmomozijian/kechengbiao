@@ -1,0 +1,10 @@
+{
+  "name": "我的课表",
+  "short_name": "课表",
+  "description": "适配手机与桌面的个人课程表",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#edf6ef",
+  "theme_color": "#63b96f",
+  "lang": "zh-CN"
+}

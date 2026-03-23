@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#63b96f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="我的课表" />
+    <title>我的课表</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-main">
+        <div class="topbar-copy">
+          <p id="todayText" class="date"></p>
+          <h1>我的课表</h1>
+          <p id="heroSubtitle" class="topbar-note">正在整理课程安排</p>
+        </div>
+        <div class="top-actions">
+          <div class="pill" id="summaryText">--</div>
+          <button class="icon-btn" id="installBtn" type="button" hidden>安装</button>
+        </div>
+      </div>
+      <div class="topbar-quick">
+        <span class="hero-badge" id="todayBadge">今日</span>
+        <strong id="nextLesson">暂无课程</strong>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="today-remaining" id="todayRemaining"></section>
+
+      <section class="toolbar">
+        <div id="weekTabs" class="chips"></div>
+        <div id="weekdayTabs" class="chips weekday"></div>
+      </section>
+
+      <section class="board-wrap" id="desktopWrap">
+        <div class="board" id="desktopBoard"></div>
+      </section>
+
+      <section class="mobile-day" id="mobileDay"></section>
+    </main>
+
+    <nav class="bottom-nav">
+      <a class="bottom-item active" href="#desktopWrap">
+        <span class="bottom-icon">▦</span>
+        <span>日程表</span>
+      </a>
+      <a class="bottom-item" href="#weekTabs">
+        <span class="bottom-icon">≡</span>
+        <span>周次</span>
+      </a>
+      <a class="bottom-item" href="#todayRemaining">
+        <span class="bottom-icon">◎</span>
+        <span>今天</span>
+      </a>
+    </nav>
+
+    <script src="./schedule-data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
