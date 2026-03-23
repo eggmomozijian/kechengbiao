@@ -137,6 +137,111 @@ a {
   margin-bottom: 14px;
 }
 
+.mobile-week-overview {
+  display: none;
+}
+
+.week-overview-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 14px;
+  margin-top: 14px;
+  box-shadow: 0 18px 34px rgba(46, 74, 50, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.week-overview-head h3,
+.week-overview-head p,
+.week-day-head strong,
+.week-day-head span,
+.week-day-empty,
+.week-lesson-time,
+.week-lesson-name {
+  margin: 0;
+}
+
+.week-overview-head h3 {
+  font-size: 20px;
+}
+
+.week-overview-head p {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.week-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.week-day-card {
+  border: 1px solid #dfeadf;
+  border-radius: 18px;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(242, 248, 243, 0.95));
+}
+
+.week-day-card.active {
+  border-color: #8ad091;
+  box-shadow: 0 10px 20px rgba(99, 185, 111, 0.12);
+}
+
+.week-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.week-day-head strong {
+  font-size: 17px;
+}
+
+.week-day-head span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.week-day-empty {
+  margin-top: 10px;
+  color: #819083;
+  font-size: 13px;
+}
+
+.week-day-lessons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.week-lesson-pill {
+  border: 0;
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #eaf7eb, #dff0e1);
+  color: #2e4d34;
+  text-align: left;
+  cursor: pointer;
+}
+
+.week-lesson-time {
+  display: block;
+  font-size: 11px;
+  opacity: 0.76;
+}
+
+.week-lesson-name {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .today-card {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -511,6 +616,10 @@ a {
 @media (max-width: 900px) {
   .board-wrap {
     display: none;
+  }
+
+  .mobile-week-overview {
+    display: block;
   }
 
   .mobile-day {

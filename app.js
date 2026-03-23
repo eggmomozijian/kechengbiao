@@ -55,6 +55,7 @@
   const weekTabs = document.getElementById('weekTabs');
   const weekdayTabs = document.getElementById('weekdayTabs');
   const desktopBoard = document.getElementById('desktopBoard');
+  const mobileWeekOverview = document.getElementById('mobileWeekOverview');
   const mobileDay = document.getElementById('mobileDay');
   const todayRemaining = document.getElementById('todayRemaining');
   const summaryText = document.getElementById('summaryText');
@@ -209,6 +210,71 @@
     `;
   };
 
+  const renderMobileWeekOverview = () => {
+    const weekLessons = getWeekLessons(currentWeek);
+    const dayBlocks = weekdayLabel
+      .map((label, index) => {
+        const weekday = index + 1;
+        const dayLessons = weekLessons.filter((lesson) => lesson.weekday === weekday);
+        const activeClass = weekday === currentWeekday ? ' active' : '';
+
+        if (!dayLessons.length) {
+          return `
+            <article class="week-day-card${activeClass}">
+              <div class="week-day-head">
+                <strong>${label}</strong>
+                <span>无课</span>
+              </div>
+              <p class="week-day-empty">这一天没有课程</p>
+            </article>
+          `;
+        }
+
+        const items = dayLessons
+          .map(
+            (lesson) => `
+              <button class="week-lesson-pill" type="button" data-weekday="${weekday}">
+                <span class="week-lesson-time">${getLessonTimeRange(lesson)}</span>
+                <span class="week-lesson-name">${lesson.course}</span>
+              </button>
+            `
+          )
+          .join('');
+
+        return `
+          <article class="week-day-card${activeClass}">
+            <div class="week-day-head">
+              <strong>${label}</strong>
+              <span>${dayLessons.length} 节</span>
+            </div>
+            <div class="week-day-lessons">${items}</div>
+          </article>
+        `;
+      })
+      .join('');
+
+    mobileWeekOverview.innerHTML = `
+      <div class="week-overview-card">
+        <div class="week-overview-head">
+          <h3>本周总览</h3>
+          <p>第${currentWeek}周 · 一周内的课程安排</p>
+        </div>
+        <div class="week-overview-grid">${dayBlocks}</div>
+      </div>
+    `;
+
+    mobileWeekOverview.querySelectorAll('.week-lesson-pill').forEach((button) => {
+      button.addEventListener('click', () => {
+        currentWeekday = Number(button.dataset.weekday);
+        renderWeekdayTabs();
+        renderMobileWeekOverview();
+        renderMobile();
+        renderHero();
+        mobileDay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  };
+
   const renderMobile = () => {
     const dayLessons = getDayLessons(currentWeek, currentWeekday);
     if (!dayLessons.length) {
@@ -293,6 +359,7 @@
     renderTodayRemaining();
     renderWeekTabs();
     renderWeekdayTabs();
+    renderMobileWeekOverview();
     renderDesktop();
     renderMobile();
     renderSummary();
