@@ -2,6 +2,8 @@
 
 这是一个适配手机和桌面的静态课表网站，可直接部署到 GitHub Pages。
 
+[![Use EdgeOne Pages to deploy](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Feggmomozijian%2Fkechengbiao&project-name=kechengbiao)
+
 ## 访问入口
 
 - `index.html`
