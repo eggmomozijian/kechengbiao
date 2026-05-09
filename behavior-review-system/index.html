@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>行为复盘与改变系统</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div>
+          <p class="date-line" id="todayText">今天</p>
+          <h1>行为复盘与改变系统</h1>
+          <p class="subtitle">每天少记一点，重复看见原则，用 30 天改变一个具体行为。</p>
+        </div>
+      </header>
+
+      <nav class="tabs" aria-label="页面导航">
+        <button class="tab active" type="button" data-view="dashboard">首页</button>
+        <button class="tab" type="button" data-view="principles">原则库</button>
+        <button class="tab" type="button" data-view="experiments">行为实验</button>
+        <button class="tab" type="button" data-view="history">历史记录</button>
+      </nav>
+
+      <main>
+        <section class="view active" id="dashboardView">
+          <div class="dashboard-grid">
+            <section class="panel review-panel">
+              <div class="section-head">
+                <div>
+                  <h2>每日复盘</h2>
+                  <p>只回答四个问题，保存后进入历史记录。</p>
+                </div>
+                <span class="soft-pill" id="reviewSavedState">未保存</span>
+              </div>
+
+              <form id="reviewForm" class="question-form">
+                <label class="field">
+                  <span>今天完成了什么？</span>
+                  <textarea id="reviewCompleted" name="completed" rows="4"></textarea>
+                </label>
+
+                <label class="field">
+                  <span>今天最大的问题是什么？</span>
+                  <textarea id="reviewProblem" name="problem" rows="4"></textarea>
+                </label>
+
+                <label class="field">
+                  <span>明天要改进什么？</span>
+                  <textarea id="reviewImprove" name="improve" rows="4"></textarea>
+                </label>
+
+                <label class="field">
+                  <span>一句话总结</span>
+                  <textarea id="reviewSummary" name="summary" rows="3" maxlength="140"></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button class="primary-btn" type="submit">保存今日复盘</button>
+                  <button class="ghost-btn" type="button" data-go-view="history">查看历史</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="section-head">
+                <div>
+                  <h2>今日原则提醒</h2>
+                  <p>触发型规则：当我____时，我就____。</p>
+                </div>
+              </div>
+
+              <div id="principleReminderList" class="principle-reminders"></div>
+
+              <div class="form-actions">
+                <button class="primary-btn" id="refreshPrinciplesBtn" type="button">换一批</button>
+                <button class="ghost-btn" type="button" data-go-view="principles">管理原则</button>
+              </div>
+            </section>
+
+            <section class="panel current-experiment-panel">
+              <div class="section-head">
+                <div>
+                  <h2>当前行为实验</h2>
+                  <p>显示正在进行的 1-2 个 30 天实验。</p>
+                </div>
+              </div>
+
+              <div id="dashboardExperimentList" class="experiment-list"></div>
+
+              <div class="form-actions">
+                <button class="ghost-btn" type="button" data-go-view="experiments">管理行为实验</button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="principlesView">
+          <section class="panel">
+            <div class="section-head">
+              <div>
+                <h2 id="principleFormTitle">新增原则</h2>
+                <p>建议写成“当我____时，我就____。”</p>
+              </div>
+            </div>
+
+            <form id="principleForm" class="principle-form">
+              <input id="principleId" name="id" type="hidden" />
+              <label class="field wide">
+                <span>原则内容</span>
+                <textarea
+                  id="principleText"
+                  name="text"
+                  rows="3"
+                  placeholder="当我想刷短视频时，我就先做5分钟主线任务。"
+                  required
+                ></textarea>
+              </label>
+
+              <label class="field">
+                <span>分类</span>
+                <select id="principleCategory" name="category">
+                  <option value="决策">决策</option>
+                  <option value="执行">执行</option>
+                  <option value="精力">精力</option>
+                  <option value="学习">学习</option>
+                  <option value="娱乐">娱乐</option>
+                  <option value="其他">其他</option>
+                </select>
+              </label>
+
+              <div class="form-actions wide">
+                <button class="primary-btn" id="principleSubmitBtn" type="submit">保存原则</button>
+                <button class="ghost-btn" id="principleCancelBtn" type="button">清空</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="section-head">
+              <div>
+                <h2>原则库</h2>
+                <p>原则越少越好，留下真正能触发行动的规则。</p>
+              </div>
+            </div>
+            <div id="principleList" class="principle-list"></div>
+          </section>
+        </section>
+
+        <section class="view" id="experimentsView">
+          <section class="panel">
+            <div class="section-head">
+              <div>
+                <h2 id="experimentFormTitle">新增行为实验</h2>
+                <p>一个实验只改变一个具体行为，周期固定为 30 天。</p>
+              </div>
+            </div>
+
+            <form id="experimentForm" class="experiment-form">
+              <input id="experimentId" name="id" type="hidden" />
+
+              <label class="field">
+                <span>实验名称</span>
+                <input id="experimentName" name="name" type="text" maxlength="60" required />
+              </label>
+
+              <label class="field">
+                <span>开始日期</span>
+                <input id="experimentStartDate" name="startDate" type="date" required />
+              </label>
+
+              <label class="field">
+                <span>结束日期</span>
+                <input id="experimentEndDate" name="endDate" type="date" />
+              </label>
+
+              <label class="field wide">
+                <span>我要改变什么</span>
+                <textarea id="experimentChangeTarget" name="changeTarget" rows="3" required></textarea>
+              </label>
+
+              <label class="field wide">
+                <span>触发点：什么时候最容易发生</span>
+                <textarea id="experimentTrigger" name="trigger" rows="3" required></textarea>
+              </label>
+
+              <label class="field wide">
+                <span>替代行为：我不做旧行为时改做什么</span>
+                <textarea id="experimentAlternative" name="alternative" rows="3" required></textarea>
+              </label>
+
+              <label class="field wide">
+                <span>成功标准</span>
+                <textarea id="experimentSuccessCriteria" name="successCriteria" rows="3" required></textarea>
+              </label>
+
+              <label class="field">
+                <span>30天后决策</span>
+                <select id="experimentFinalDecision" name="finalDecision">
+                  <option value="">未决策</option>
+                  <option value="保留">保留</option>
+                  <option value="放弃">放弃</option>
+                  <option value="调整">调整</option>
+                </select>
+              </label>
+
+              <label class="field wide">
+                <span>最终复盘</span>
+                <textarea id="experimentFinalReview" name="finalReview" rows="4"></textarea>
+              </label>
+
+              <div class="form-actions wide">
+                <button class="primary-btn" id="experimentSubmitBtn" type="submit">保存实验</button>
+                <button class="ghost-btn" id="experimentCancelBtn" type="button">清空</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="section-head">
+              <div>
+                <h2>行为实验</h2>
+                <p>每日只做一个判断：成功或失败。</p>
+              </div>
+            </div>
+            <div id="experimentList" class="experiment-list"></div>
+          </section>
+        </section>
+
+        <section class="view" id="historyView">
+          <div class="history-grid">
+            <section class="panel">
+              <div class="section-head">
+                <div>
+                  <h2>每日复盘历史</h2>
+                  <p>按日期倒序查看过去的四问复盘。</p>
+                </div>
+              </div>
+              <div id="reviewHistoryList" class="history-list"></div>
+            </section>
+
+            <section class="panel">
+              <div class="section-head">
+                <div>
+                  <h2>行为实验历史</h2>
+                  <p>查看实验进度、成功率和最终决策。</p>
+                </div>
+              </div>
+              <div id="experimentHistoryList" class="history-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
